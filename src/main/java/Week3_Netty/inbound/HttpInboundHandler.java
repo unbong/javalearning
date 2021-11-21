@@ -16,6 +16,10 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ *
+ *
+ */
 public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 
     private static Logger logger = LoggerFactory.getLogger(HttpInboundHandler.class);
@@ -38,13 +42,19 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
     {
         ctx.flush();
     }
+
+    /**
+     * 接收到请求之后，利用HTTPClient 或Netty客户端方法，对后台服务进行访问，
+     *
+     * @param ctx
+     * @param msg
+     * @throws Exception
+     */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
         FullHttpRequest request = (FullHttpRequest) msg;
-
-        // todo read filter
-
+        //  利用HttpClient发送请求
         //outboundHandler.handler(ctx, request);
 
         //  Netty 实现后端 HTTP 访问

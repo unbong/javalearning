@@ -56,9 +56,12 @@ public class HttpOutboundHandler  {
     public void handler(ChannelHandlerContext ctx , FullHttpRequest request )  {
         System.out.println("http client handler start");
 
+        // 通过随机路由获取访问路径
         String routeUrl =  router.route(this.proxyServer);
+        // 执行过滤器方法
         filter.filter(request);
         String url = routeUrl + request.uri();
+        // 利用HTTPClient方法，访问后台服务。
         HttpClient client = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         FullHttpResponse fullHttpResponse = null;
@@ -69,7 +72,7 @@ public class HttpOutboundHandler  {
             HttpEntity httpEntity =  httpResponse.getEntity();
             if(httpEntity != null)
             {
-
+                // 从后台获取到数据后，将数据返回给网关调用者。
                 byte[] bytes = EntityUtils.toByteArray( httpEntity);
                 String s = new String(bytes);
                 System.out.println("response: " + s);

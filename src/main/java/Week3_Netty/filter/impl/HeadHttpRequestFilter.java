@@ -11,7 +11,11 @@ import io.netty.handler.codec.http.FullHttpRequest;
  */
 public class HeadHttpRequestFilter implements HttpRequestFilter {
 
-
+    /**
+     * 过滤器的执行方法，在请求头中添加xjava
+     *
+     * @param request
+     */
     @Override
     public void filter(FullHttpRequest request) {
         request.headers().set("xjava", "unbong");
