@@ -4,18 +4,10 @@ import Week4_Concurreny.Lock.ConditionDemo;
 import Week4_Concurreny.Lock.LockSupportDemo;
 import Week4_Concurreny.Lock.ReadWriteDemo;
 import Week4_Concurreny.collection.ConcurentHashMap;
-import Week4_Concurreny.homework.WorkWithXXX;
-import personalPractice.concurrency.ConcurrencyDemo;
 
-import javax.management.relation.RelationNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.LockSupport;
 
 public class Concurrency {
