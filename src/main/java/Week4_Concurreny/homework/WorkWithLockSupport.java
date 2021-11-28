@@ -11,30 +11,28 @@ public class WorkWithLockSupport {
 
 
 
-    private String value = "";
-
-    public void doWork()
-    {
-        value = "work done.";
+    static Integer result ;
+    private static   int sum() {
+        return fibo(36);
     }
 
-
-    public String getValue()
-    {
-        return value;
+    private  static  int fibo(int a) {
+        if ( a < 2)
+            return 1;
+        return fibo(a-1) + fibo(a-2);
     }
 
     public static void main(String[] args) {
 
-        WorkWithLockSupport work = new WorkWithLockSupport();
+        long start=System.currentTimeMillis();
         Thread main = Thread.currentThread();
         Thread t1 = new Thread(
                 ()->{
                     try {
-                        Thread.sleep(1000l);
-                        work.doWork();
+                        //Thread.sleep(1000l);
+                        result = WorkWithLockSupport.sum();
                         LockSupport.unpark(main);
-                    } catch (InterruptedException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -45,7 +43,8 @@ public class WorkWithLockSupport {
         t1.start();
         LockSupport.park();
 
-        System.out.println(work.getValue());
+        System.out.println("异步计算结果为："+result);
+        System.out.println("使用时间："+ (System.currentTimeMillis()-start) + " ms");
 
     }
 

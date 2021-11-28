@@ -9,19 +9,32 @@ import java.util.concurrent.*;
  */
 public class WorkWIthFuture {
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+    private static   int sum() {
+        return fibo(36);
+    }
 
+    private  static  int fibo(int a) {
+        if ( a < 2)
+            return 1;
+        return fibo(a-1) + fibo(a-2);
+    }
+
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        long start=System.currentTimeMillis();
         ExecutorService es =  Executors.newFixedThreadPool(2);
 
-        Future<String> future = es.submit(()->{
+        Future<Integer> future = es.submit(()->{
 
-            return "future work is done. ";
+            return WorkWIthFuture.sum();
         });
 
-        String res = future.get();
+        Integer result = future.get();
 
-        System.out.println(res);
+        System.out.println("异步计算结果为："+result);
+        System.out.println("使用时间："+ (System.currentTimeMillis()-start) + " ms");
         es.shutdown();
+
 
     }
 }

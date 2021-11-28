@@ -10,40 +10,44 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class WorkWithLock {
 
-    ReentrantLock lock = new ReentrantLock(true);
-    private String value = "";
-
-    public void doWork()
-    {
-        lock.lock();
-        value = "work done.";
-        lock.unlock();
+    static ReentrantLock lock = new ReentrantLock(true);
+    static Integer result ;
+    private static   int sum() {
+        return fibo(36);
     }
 
-
-    public String getValue()
-    {
-        try {
-            lock.lock();
-            return value;
-        }finally {
-
-            lock.unlock();
-        }
-
+    private  static  int fibo(int a) {
+        if ( a < 2)
+            return 1;
+        return fibo(a-1) + fibo(a-2);
     }
+
 
     public static void main(String[] args) throws InterruptedException {
 
-        WorkWithLock worker = new WorkWithLock();
+        long start=System.currentTimeMillis();
         Thread t1 = new Thread(()->{
-            worker.doWork();
+            try {
+                lock.lock();
+                result = WorkWithLock.sum();
+            }
+            finally {
+                lock.unlock();
+            }
         });
 
 
         t1.start();
         Thread.sleep(1);
+        try{
+            lock.lock();
+            System.out.println("异步计算结果为："+result);
+            System.out.println("使用时间："+ (System.currentTimeMillis()-start) + " ms");
+        }
+        finally {
+            lock.unlock();
+        }
 
-        System.out.println(worker.getValue());
+
     }
 }

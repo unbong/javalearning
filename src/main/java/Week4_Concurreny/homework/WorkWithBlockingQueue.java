@@ -9,23 +9,35 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class WorkWithBlockingQueue {
 
+    private static   int sum() {
+        return fibo(36);
+    }
+
+    private  static  int fibo(int a) {
+        if ( a < 2)
+            return 1;
+        return fibo(a-1) + fibo(a-2);
+    }
+
 
 
     public static void main(String[] args) throws InterruptedException {
-        ArrayBlockingQueue<String> data = new ArrayBlockingQueue<>(10, true);
+        long start=System.currentTimeMillis();
+        ArrayBlockingQueue<Integer> data = new ArrayBlockingQueue<>(10, true);
 
 
         Thread t1 = new Thread(()->{
             try {
-                data.put("woke done.");
+                data.put(WorkWithBlockingQueue.sum());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
         });
         t1.start();
-        String value = data.take();
-        System.out.println(value);
+        Integer result = data.take();
+        System.out.println("异步计算结果为："+result);
+        System.out.println("使用时间："+ (System.currentTimeMillis()-start) + " ms");
     }
 
 }

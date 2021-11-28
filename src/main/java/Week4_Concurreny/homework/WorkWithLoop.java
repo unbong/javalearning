@@ -7,20 +7,19 @@ package Week4_Concurreny.homework;
 public class WorkWithLoop {
 
 
-    private volatile  boolean done = false;
-    private String value = "";
-
-    public void doWork()
-    {
-        value = "work done.";
+    private volatile static boolean done = false;
+    static Integer result ;
+    private static   int sum() {
+        return fibo(36);
     }
 
-    public String getValue()
-    {
-        return value;
+    private  static  int fibo(int a) {
+        if ( a < 2)
+            return 1;
+        return fibo(a-1) + fibo(a-2);
     }
 
-    public boolean isDone() {
+    public  static boolean isDone() {
         return done;
     }
 
@@ -29,22 +28,22 @@ public class WorkWithLoop {
 
     public static void main(String[] args) throws InterruptedException {
 
-        WorkWithLoop work = new WorkWithLoop();
-
+        long start=System.currentTimeMillis();
         Thread t1 = new Thread(()->{
 
-            work.doWork();
-            work.done = true;
+            result = WorkWithLoop.sum();
+            WorkWithLoop.done = true;
         });
 
         t1.start();
-        while(!work.isDone() )
+        while(!WorkWithLoop.isDone() )
         {
-            Thread.sleep(400l);
+            Thread.sleep(10l);
 
         }
 
-        System.out.println(work.getValue());
+        System.out.println("异步计算结果为："+result);
+        System.out.println("使用时间："+ (System.currentTimeMillis()-start) + " ms");
 
     }
 }

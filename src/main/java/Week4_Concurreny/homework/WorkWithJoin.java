@@ -7,29 +7,28 @@ package Week4_Concurreny.homework;
  */
 public class WorkWithJoin {
 
-    private String value = "";
-
-    public void doWork()
-    {
-        value = "work done.";
+    static Integer result ;
+    private static   int sum() {
+        return fibo(36);
     }
 
-
-    public String getValue()
-    {
-        return value;
+    private  static  int fibo(int a) {
+        if ( a < 2)
+            return 1;
+        return fibo(a-1) + fibo(a-2);
     }
 
 
     public static void main(String[] args) throws InterruptedException {
 
-        WorkWithJoin w1 = new WorkWithJoin();
+        long start=System.currentTimeMillis();
         Thread t1 = new Thread(()->{
-            w1.doWork();
+            result= WorkWithJoin.sum();
         });
         t1.start();
         t1.join();
 
-        System.out.println(w1.getValue());
+        System.out.println("异步计算结果为："+result);
+        System.out.println("使用时间："+ (System.currentTimeMillis()-start) + " ms");
     }
 }
